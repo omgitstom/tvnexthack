@@ -34,10 +34,10 @@ if ('development' == app.get('env')) {
 // start polling the ESPN live captions
 espn();
 
-function drink(ref, event, length) {
-  ref.child(event).child('drink').set(true);
+function drink(event, length) {
+  mainRef.child(event).child('drink').set(true);
   setTimeout(function() {
-    ref.child(event).child('drink').set(false);
+    mainRef.child(event).child('drink').set(false);
   }, length * 1000);
 }
 
