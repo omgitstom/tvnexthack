@@ -9,5 +9,5 @@ module.exports = {
       mainRef.child(event).child('drink').set(false);
     }, length * 1000);
   },
-  sendQuestion(question, answers, correctIx){}
+  sendQuestion: function(question, answers, correctIx){}
 };
