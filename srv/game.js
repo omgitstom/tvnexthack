@@ -138,13 +138,17 @@ module.exports = function(){
       answers.splice(correctIx, 0, team.record.wins);
 
       sendQuestion("How many wins do the " + team.name + " have this season?", answers, correctIx);
+    },
+    overtimeLossesQuestion = function(team, athlete){
+      sendQuestion("How many overtime losses did the " + team.overtimeLosses + " have this season?", ['0', '1', '2', '3'], 0);
     };
 
   questions = [
     weightQuestion,
     ageQuestion,
     heightQuestion,
-    winsQuestion
+    winsQuestion,
+    overtimeLossesQuestion
   ];
 
   // when a keyword is matched in the captions, a "lightning" round begins
