@@ -4,7 +4,13 @@
    Author's custom styles
    ========================================================================== */
 
-
+.brand {
+	font-family: 'Inder', sans-serif;
+	font-weight: bold;
+}
+i {
+	width: 32px;
+}
 
 
 
