@@ -47,6 +47,7 @@ module.exports = {
     "heavy hitter",
     "out of the park",
     "déjà vu",
+    "deja vu",
     "out of left field",
     "screwball",
     "swing for the fences",
@@ -62,7 +63,7 @@ module.exports = {
     "cover off the ball",
     "Mendoza line",
     "rally cap",
-    "rain-check"
+    "rain-check",
     "whole new ball game",
     "whiff",
     "triple play"

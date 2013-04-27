@@ -1,12 +1,23 @@
 'use strict';
 
-var http = require('http');
+var
+  http = require('http'),
+  baseball = require('./baseball');
 
 module.exports = function(){
   var
     reported = 0,
     checkForMatches = function(text){
-      console.log(text);
+      console.log('checking for matches in "' + text + '"');
+      text = text.toLowerCase();
+      Object.keys(baseball).forEach(function(level){
+        baseball[level].forEach(function(keyword){
+          if (~text.indexOf(keyword)){
+            console.log('matched at level', level, keyword, text);
+            return;
+          }
+        });
+      });
     };
 
   setInterval(function(){
