@@ -9,16 +9,18 @@ module.exports = {
     }, length * 1000);
   },
   question: {
-    trivia: new Firebase('https://drivia.firebaseio.com/trivia'),
-    send: function(question, answers, correctIx) {
+    send: function(event, question, answers, correctIx) {
+      var trivia = mainRef.child(event).child('trivia');
       var newQuestion = this.trivia.push();
       newQuestion.set({question: question, answers: answers, correct: correctIx});
-      this.current = newQuestion;
+      trivia.child('current').set(newQuestion.name());
       return newQuestion;
     },
-    answer: function(question, user, answer) {
-      if (question != this.current) {
+    answer: function(event, questionIx, user, answer) {
+      var trivia = mainRef.child(event).child('trivia');
+      if (questionIx != trivia.child('current')) {
         console.log('Not the current question');
+        return false;
       } else {
         question.users.child(user.username).set(answer);
       }
