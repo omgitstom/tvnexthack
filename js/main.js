@@ -7,7 +7,7 @@ function Rinkd(options) {
 }
 
 Rinkd.prototype.init = function (){
-	this.firebase = new Firebase('https://myprojectname.firebaseIO-demo.com/');
+	this.firebase = new Firebase(this.options.firebaseURL);
 	this.firebase.set('Hello World!');
 };
 
