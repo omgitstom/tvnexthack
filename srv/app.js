@@ -31,16 +31,10 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-<<<<<<< HEAD
 // app.get('/', routes.index);
 // app.get('/users', user.list);
-=======
 // start polling the ESPN live captions
 espn();
-
-app.get('/', routes.index);
-app.get('/users', user.list);
->>>>>>> 7758557db2981c529d937b57e48611ca6acaa181
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
