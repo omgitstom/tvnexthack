@@ -8,7 +8,8 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , game = require('./game');
+  , game = require('./game')
+  , pubsub = require('./pubsub');
 
 var app = express();
 
@@ -32,6 +33,13 @@ if ('development' == app.get('env')) {
 
 // start the game events
 game();
+
+// POST route for answers
+app.post('/', function(req, res){
+  console.log(req);
+  //pubsub.question.answer()
+  res.send(201);
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

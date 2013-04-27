@@ -11,19 +11,20 @@ module.exports = {
   question: {
     send: function(event, question, answers, correctIx) {
       var trivia = mainRef.child(event).child('trivia');
-      var newQuestion = this.trivia.push();
-      newQuestion.set({question: question, answers: answers, correct: correctIx});
-      trivia.child('current').set(newQuestion.name());
+      var newQuestion = trivia.push();
+      var question = {question: question, questionIx: newQuestion.name(), answers: answers, correct: correctIx};
+      trivia.child('current').set(question);
+      newQuestion.set(question);
       return newQuestion;
     },
     answer: function(event, questionIx, user, answer) {
       var trivia = mainRef.child(event).child('trivia');
-      if (questionIx != trivia.child('current')) {
+      if (questionIx != trivia.child('current').child(questionIx).val()) {
         console.log('Not the current question');
         return false;
-      } else {
-        question.users.child(user.username).set(answer);
       }
+      question.users.child(user.username).set(answer);
+      return true;
     }
   }
 };
