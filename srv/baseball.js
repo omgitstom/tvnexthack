@@ -20,6 +20,18 @@ module.exports = {
     "off base",
     "on deck",
     "one base at a time",
+    "touch base",
+    "singles",
+    "swing and miss",
+    "pinch hit",
+    "pitch a shutout",
+    "play ball",
+    "relief pitcher",
+		"right off the bat",
+    "step up to the plate",
+    "strike out swinging",
+		"strike out looking",
+    "switch-hitter"
   ],
   2: [
   	"batting 1000",
@@ -34,7 +46,11 @@ module.exports = {
     "hardball",
     "heavy hitter",
     "out of the park",
-    "déjà vu"
+    "déjà vu",
+    "out of left field",
+    "screwball",
+    "swing for the fences",
+    "wheelhouse"
   ],
   3: [
   	"beanball",
@@ -47,33 +63,11 @@ module.exports = {
     "Mendoza line",
     "rally cap",
     "rain-check"
-  ]
-    
+    "whole new ball game",
+    "whiff",
+    "triple play"
+  ]   
 }
 
-out of left field
-pinch hit
-pitch a shutout
-play ball
-play softball
-relief pitcher
-right off the bat
-screwball
-shutout
-singles or hit singles
-small ball
-softball
-step up to the plate
-strike
-strike out swinging
-strike out looking
-swing and miss
-swing for the fences
-switch-hitter
-three strikes law
-took the collar
-touch base
-triple play
-wheelhouse
-whiff
-whole new ball game
+
+
