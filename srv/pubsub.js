@@ -1,5 +1,8 @@
 var Firebase = require('firebase')
-  , mainRef = new Firebase('https://drivia.firebaseio.com/');
+  , mainRef = new Firebase('https://drivia.firebaseio.com/')
+  , trivia = new Firebase('https://drivia.firebaseio.com/trivia');
+
+var event = "basketball-game";
 
 module.exports = {
   drink: function(event, length) {
@@ -9,15 +12,14 @@ module.exports = {
     }, length * 1000);
   },
   question: {
-    send: function(event, question, answers, correctIx) {
-      var trivia = mainRef.child(event).child('trivia');
+    send: function(question, answers, correctIx) {
       var newQuestion = trivia.push();
-      var question = {question: question, questionIx: newQuestion.name(), answers: answers, correct: correctIx};
-      trivia.child('current').set(question);
+      var question = {question: question, answers: answers, questionIx: newQuestion.name(), correct: correctIx};
       newQuestion.set(question);
+      trivia.child('current').set(question);
       return newQuestion;
     },
-    answer: function(event, questionIx, user, answer) {
+    answer: function(question, user, answer) {
       var trivia = mainRef.child(event).child('trivia');
       if (questionIx != trivia.child('current').child(questionIx).val()) {
         console.log('Not the current question');
