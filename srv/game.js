@@ -71,7 +71,7 @@ module.exports = function(){
       return function(){
         var
           team = random(0, 1) ? left : right,
-          athlete = team[random(0, team.length - 1)];
+          athlete = team.roster[random(0, team.roster.length - 1)];
 
         questions[random(0, questions.length - 1)](team, athlete);
       }
@@ -126,25 +126,46 @@ module.exports = function(){
       answers.splice(correctIx, 0, Math.floor(athlete.height / 12) + "'" + (athlete.height % 12) + '"');
 
       sendQuestion("How tall is " + athlete.displayName + "?", answers, correctIx);
+    },
+    winsQuestion = function(team, athlete){
+      var
+        correctIx = random(0, 3),
+        answers = randoms(1, 6, 3);
+
+      answers = answers.map(function(e){
+        return random(0, 1) ? e + team.record.wins : team.record.wins - e;
+      });
+      answers.splice(correctIx, 0, team.record.wins);
+
+      sendQuestion("How many wins do the " + team.name + " have this season?", answers, correctIx);
     };
 
   questions = [
     weightQuestion,
     ageQuestion,
-    heightQuestion
+    heightQuestion,
+    winsQuestion
   ];
 
   // when a keyword is matched in the captions, a "lightning" round begins
   setInterval(lightningRound, 1000);
 
-  // get the team rosters
-  espn.roster(espn.teams.celtics, function(roster){
-    var celtics = roster;
-    espn.roster(espn.teams.knicks, function(roster){
-      var knicks = roster;
+  // get the team summaries
+  espn.team(espn.teams.celtics, function(team){
+    var celtics = team;
+    espn.team(espn.teams.knicks, function(team){
+      var knicks = team;
 
-      // send new trivia questions to all the players
-      setInterval(chooseQuestion(celtics, knicks), 3000);
+      // get the team rosters
+      espn.roster(espn.teams.celtics, function(roster){
+        celtics.roster = roster;
+        espn.roster(espn.teams.knicks, function(roster){
+          knicks.roster = roster;
+          
+          // send new trivia questions to all the players
+          setInterval(chooseQuestion(celtics, knicks), 3000);
+        });
+      });
     });
   });
 };
