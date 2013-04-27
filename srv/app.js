@@ -31,10 +31,15 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// app.get('/', routes.index);
-// app.get('/users', user.list);
 // start polling the ESPN live captions
 espn();
+
+function drink(ref, event, length) {
+  ref.child(event).child('drink').set(true);
+  setTimeout(function() {
+    ref.child(event).child('drink').set(false);
+  }, length * 1000);
+}
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
