@@ -22,8 +22,9 @@ module.exports = function(){
       });
     };
 
+  // when a keyword is matched in the captions, a "lightning" round begins
   setInterval(function(){
-    http.get('http://livefeed.api.tv/hack2013/v1/getlivefeeditems/args/livefeed/1632384/starttime/live/format.json', function(response){
+    http.get('http://livefeed.api.tv/hack2013/v1/getlivefeeditems/args/livefeed/1632393/starttime/live/format.json', function(response){
       var data = '';
 
       response.on('data', function(chunk){
@@ -43,4 +44,10 @@ module.exports = function(){
       });
     });
   }, 1000);
+  
+  // send new trivia questions to all the players
+  setInterval(function(){
+    
+  }, 30);
+  
 };
