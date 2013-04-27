@@ -9,7 +9,7 @@ module.exports = {
     }, length * 1000);
   },
   question: {
-    trivia: new Firebase('https://drivia.firebaseio.com/trivia');
+    trivia: new Firebase('https://drivia.firebaseio.com/trivia'),
     send: function(question, answers, correctIx) {
       var newQuestion = this.trivia.push();
       newQuestion.set({question: question, answers: answers, correct: correctIx});

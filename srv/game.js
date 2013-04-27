@@ -69,7 +69,7 @@ module.exports = function(){
         }
         
         console.log("How much does " + athlete.displayName + " weigh?", answers, correctIx);
-        pubsub.sendQuestion("How much does " + athlete.displayName + " weigh?", answers, correctIx);
+        pubsub.question.send("How much does " + athlete.displayName + " weigh?", answers, correctIx);
       }
     };
 
