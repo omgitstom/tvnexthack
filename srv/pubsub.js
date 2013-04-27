@@ -8,5 +8,6 @@ module.exports = {
     setTimeout(function() {
       mainRef.child(event).child('drink').set(false);
     }, length * 1000);
-  }
+  },
+  sendQuestion(question, answers, correctIx){}
 };
