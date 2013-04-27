@@ -8,7 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , espn = require('./espn');
+  , game = require('./game');
 
 var app = express();
 
@@ -30,8 +30,8 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// start polling the ESPN live captions
-espn();
+// start polling the live captions
+game();
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
