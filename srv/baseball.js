@@ -1,10 +1,10 @@
 module.exports = {
   1: [
     "ballpark",
-   	"big league",
+    "big league",
     "bush-league",
     "cleanup hitter",
-		"closer",
+    "closer",
     "curve",
     "first base",
     "first inning",
@@ -27,14 +27,14 @@ module.exports = {
     "pitch a shutout",
     "play ball",
     "relief pitcher",
-		"right off the bat",
+    "right off the bat",
     "step up to the plate",
     "strike out swinging",
-		"strike out looking",
+    "strike out looking",
     "switch-hitter"
   ],
   2: [
-  	"batting 1000",
+    "batting 1000",
     "brand new ballgame",
     "brush back",
     "cover one's bases",
@@ -47,13 +47,14 @@ module.exports = {
     "heavy hitter",
     "out of the park",
     "déjà vu",
+    "deja vu",
     "out of left field",
     "screwball",
     "swing for the fences",
     "wheelhouse"
   ],
   3: [
-  	"beanball",
+    "beanball",
     "can of corn",
     "Charley horse",
     "ducks on a pond",
@@ -62,12 +63,9 @@ module.exports = {
     "cover off the ball",
     "Mendoza line",
     "rally cap",
-    "rain-check"
+    "rain-check",
     "whole new ball game",
     "whiff",
     "triple play"
   ]   
-}
-
-
-
+};
