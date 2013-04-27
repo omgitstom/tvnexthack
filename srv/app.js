@@ -30,7 +30,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// start polling the live captions
+// start the game events
 game();
 
 http.createServer(app).listen(app.get('port'), function(){
