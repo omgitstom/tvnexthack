@@ -1,0 +1,17 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.2.0",
+<<<<<<< HEAD
+    "jade": "*",
+    "firebase": "*"
+=======
+    "jade": "*"
+>>>>>>> 6fa9214f472ef9bc94d7c07f10c6e4057185137f
+  }
+}
