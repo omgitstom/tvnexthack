@@ -1,5 +1,5 @@
 var Firebase = require('firebase')
-  , mainRef = new Firebase('https://drivia.firebaseIO-demo.com/');
+  , mainRef = new Firebase('https://drivia.firebaseio.com/');
 
 module.exports = {
   drink: function(event, length) {
