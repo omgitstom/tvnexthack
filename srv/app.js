@@ -7,9 +7,12 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+	, Firebase = require('firebase');
 
 var app = express();
+
+var mainRef = new Firebase('https://drivia.firebaseIO-demo.com/');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
