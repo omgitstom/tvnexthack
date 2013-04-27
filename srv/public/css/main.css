@@ -12,6 +12,20 @@ i {
 	width: 32px;
 }
 
+/*Default States*/
+.game {
+	display: none;
+}
+
+.logout{
+	display: none;
+}
+.username{
+	padding-top: 10px;
+	color: white;
+	padding-right: 20px;
+}
+
 
 
 

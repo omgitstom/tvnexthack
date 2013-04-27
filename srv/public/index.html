@@ -45,18 +45,35 @@
                             <li><a href="#about">About</a></li>
                             <li><a href="#contact">Contact</a></li>
                         </ul>
+                        <button class="btn logout pull-right">Logout</button>
+                        <div class="username pull-right"></div>
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
         </div>
+        <!-- Game -->
+        <div class="container game">
+            <div class="hero-unit">
+                <h1>Question</h1>
+                <p>Who is awesome?<p>
+                <p><a class="btn btn-primary btn-large play-now">Tom</a></p>
+            </div>
+            <div class="span6">
+                <h1>Question:</h1>
+            </div>
+            <div class="span5">
+                <h1>Leaderboard:</h1>
+            </div>
+        </div>
 
-        <div class="container">
+        <!-- Intro-->
+        <div class="container intro">
 
             <!-- Main hero unit for a primary marketing message or call to action -->
             <div class="hero-unit">
                 <h1>Welcome to Rinkd!</h1>
                 <p>Rinkd is a drinking and trivia game that lets you drink on context words and play trivia with Live TV just turn your TV to ESPN and<p>
-                <p><a class="btn btn-primary btn-large">Play Now &raquo;</a></p>
+                <p><a class="btn btn-primary btn-large play-now">Play Now &raquo;</a></p>
             </div>
 
             <!-- Example row of columns -->
@@ -66,16 +83,18 @@
                     <p></p>
                     <p><a class="btn" href="#">View details &raquo;</a></p>
                 </div>
+                <!--
                 <div class="span4">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <h2>WEEEE</h2>
+                    <p></p>
                     <p><a class="btn" href="#">View details &raquo;</a></p>
                </div>
                 <div class="span4">
-                    <h2>Heading</h2>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    <h2>WEEEE</h2>
+                    <p></p>
                     <p><a class="btn" href="#">View details &raquo;</a></p>
                 </div>
+                -->
             </div>
 
             <hr>
@@ -93,6 +112,9 @@
 
         <script src="js/main.js"></script>
         <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+        <script type='text/javascript'
+        src='https://cdn.firebase.com/v0/firebase-auth-client.js'>
+        </script>
         <script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
