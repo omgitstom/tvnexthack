@@ -8,12 +8,11 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , Firebase = require('firebase')
   , espn = require('./espn');
 
 var app = express();
 
-var mainRef = new Firebase('https://drivia.firebaseIO-demo.com/');
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -33,13 +32,6 @@ if ('development' == app.get('env')) {
 
 // start polling the ESPN live captions
 espn();
-
-function drink(event, length) {
-  mainRef.child(event).child('drink').set(true);
-  setTimeout(function() {
-    mainRef.child(event).child('drink').set(false);
-  }, length * 1000);
-}
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

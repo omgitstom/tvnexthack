@@ -26,6 +26,7 @@ module.exports = {
     "pinch hit",
     "pitch a shutout",
     "play ball",
+    "the",
     "relief pitcher",
     "right off the bat",
     "step up to the plate",

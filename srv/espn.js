@@ -2,7 +2,8 @@
 
 var
   http = require('http'),
-  baseball = require('./baseball');
+  baseball = require('./baseball'),
+  pubsub = require('./pubsub');
 
 module.exports = function(){
   var
@@ -14,6 +15,7 @@ module.exports = function(){
         baseball[level].forEach(function(keyword){
           if (~text.indexOf(keyword)){
             console.log('matched at level', level, keyword, text);
+            pubsub.drink('baseball-game', level);
             return;
           }
         });
