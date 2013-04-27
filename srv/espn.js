@@ -3,20 +3,31 @@
 var http = require('http');
 
 module.exports = function(){
-  setInterval(function(){
-    http.get({
-      hostname: 'livefeed.api.tv',
-      port: 80,
-      path: '/hack2013/v1/getlivefeeditems/args/livefeed/1632384/starttime/live/format.json',
-      method: 'POST'
-    }, function(response){
-      var data;
+  var
+    reported = 0,
+    checkForMatches = function(text){
+      console.log(text);
+    };
 
-      //response.on('data', function(chunk){
-        //data += chunk;
-        //console.log(chunk);
-      //});
-      console.log(response.headers);
+  setInterval(function(){
+    http.get('http://livefeed.api.tv/hack2013/v1/getlivefeeditems/args/livefeed/1632384/starttime/live/format.json', function(response){
+      var data = '';
+
+      response.on('data', function(chunk){
+        data += chunk;
+      });
+
+      response.on('end', function(){
+        var json = JSON.parse(data);
+        json.LiveFeedItems.forEach(function(item){
+          if (item.Timestamp <= reported) {
+            // ignore already reported items
+            return;
+          }
+          reported = Math.max(item.Timestamp, reported);
+          checkForMatches(item.Data.Text);
+        });
+      });
     });
   }, 1000);
 };
