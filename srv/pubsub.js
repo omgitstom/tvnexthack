@@ -57,8 +57,12 @@ var func = {
       Object.keys(lastAnswers).forEach(function(user){
         var lastAnswer = lastAnswers[user];
         console.log({user: user, answer: lastAnswers[user]});
-        usersRef.child(user).child('points').once('value', function(snapshot){
-          var currentPoints = snapshot.val();
+        // usersRef.child(user).child('points').once('value', function(snapshot){
+        usersRef.child(user).once('value', function(snapshot){
+          var user = snapshot.name();
+          var userInfo = snapshot.val();
+          console.log(userInfo);
+          var currentPoints = userInfo.points;
           if (lastAnswer == answer) {
             console.log('Correct!');
             // If currentPoints is null, set to 1, otherwise increment by 1
@@ -69,7 +73,7 @@ var func = {
             // decrement by 1 if currentPoints is greater than 0, otherwise set to 0
             currentPoints = currentPoints > 0 ? currentPoints - 1 : 0;
             //console.log({user: userName, answer: userAnswer, correct: false, score: currentPoints});
-            func.oneDrink(user);
+            func.oneDrink(user, userInfo);
           }
           // Set the value for the child.
           usersRef.child(user).child('points').set(currentPoints);
