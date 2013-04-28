@@ -10,18 +10,31 @@ Rinkd.prototype.init = function (){
 	this.firebase = new Firebase(this.options.fireBaseURL);
 	this.authClient = new FirebaseAuthClient(this.firebase,  this.did_login.bind(this));
 	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
-
-	
-	//this.trivia.on('child_changed',this.onTriviaChildAdded.bind(this));
-	
+	this.users = new Firebase(this.options.fireBaseURL+'/users');
 	this.trivia.on('value',this.onTriviaChildAdded.bind(this));
+	this.users.on('value', this.onUserValue.bind(this));
 
 	//wire up interface
 	$('.play-now').click(this.authenticate.bind(this));
 	$('.logout').click(this.logout.bind(this));
 };
+Rinkd.prototype.onUserValue = function (data){
+	//get a user
+	var users = data.val();
+
+	var tbody = $('.user-table-data');
+	for(var name in users){
+		var user = users[name];
+		tbody.append(
+				$('<tr />').append(
+						$('<td />').text(user.drinks),
+						$('<td />').text(user.points),
+						$('<td />').text(name)
+					)
+			);
+	};
+};	
 Rinkd.prototype.onValue = function(data){
-	console.log(new Error().stack);
 	var currentQuestion = data.val();
 	console.log(currentQuestion);
 };
@@ -41,7 +54,8 @@ Rinkd.prototype.onTriviaChildAdded = function(data){
 	
 	for(i; i<length; i+=1){
 		answerNode.append($('<button />')
-			.addClass('btn')
+			.addClass('btn btn-primary')
+			.attr('type', 'button')
 			.text(answers[i])
 			.attr('answerIx', i)
 			.on('click',{'self':self}, self.answerQuestion)
@@ -55,7 +69,7 @@ Rinkd.prototype.answerQuestion = function (evt){
 	var answerIx = $(target).attr('answerIx');
 	var screen_name = self.screen_name;
 
-	self.trivia.child('users').set({screen_name:answerIx});
+	self.trivia.child('users').child(screen_name).set(answerIx);
 };
 Rinkd.prototype.authenticate = function(){
 	this.authClient.login('twitter');
@@ -73,7 +87,15 @@ Rinkd.prototype.did_login = function (error, user){
 	} else if (user) {
 		//
 		this.screen_name = user.screen_name;
-	    
+		var data = {
+			'screen_name': user.screen_name,
+			'profile_url': user.profile_image_url
+		}
+	    this.users.child(data.screen_name).child('profile_url').set(data.profile_url);
+	    this.users.child(data.screen_name).child('drink').set(false);
+	    this.users.child(data.screen_name).child('drinks').set(0);
+	    this.users.child(data.screen_name).child('points').set(0);
+
 	    //add user name
 	    $('.username').text('@'+user.screen_name);
 
@@ -82,8 +104,6 @@ Rinkd.prototype.did_login = function (error, user){
 
 	    //Slide Intro Down/Slide in Game
 	    $('.intro').fadeOut(function(){$('.game').slideDown('slow')});
-
-
 	} else {
 		$('.username').text('');
 		$('.game').slideUp('slow', function(){$('.intro').fadeIn()});
