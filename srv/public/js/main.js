@@ -20,8 +20,20 @@ Rinkd.prototype.init = function (){
 };
 Rinkd.prototype.onUserValue = function (data){
 	//get a user
-	console.log(data.val());
-};
+	var users = data.val();
+
+	var tbody = $('.user-table-data');
+	for(var name in users){
+		var user = users[name];
+		tbody.append(
+				$('<tr />').append(
+						$('<td />').text(user.drinks),
+						$('<td />').text(user.points),
+						$('<td />').text(name)
+					)
+			);
+	};
+};	
 Rinkd.prototype.onValue = function(data){
 	var currentQuestion = data.val();
 	console.log(currentQuestion);
@@ -80,6 +92,9 @@ Rinkd.prototype.did_login = function (error, user){
 			'profile_url': user.profile_image_url
 		}
 	    this.users.child(data.screen_name).child('profile_url').set(data.profile_url);
+	    this.users.child(data.screen_name).child('drink').set(false);
+	    this.users.child(data.screen_name).child('drinks').set(0);
+	    this.users.child(data.screen_name).child('points').set(0);
 
 	    //add user name
 	    $('.username').text('@'+user.screen_name);
@@ -89,8 +104,6 @@ Rinkd.prototype.did_login = function (error, user){
 
 	    //Slide Intro Down/Slide in Game
 	    $('.intro').fadeOut(function(){$('.game').slideDown('slow')});
-
-
 	} else {
 		$('.username').text('');
 		$('.game').slideUp('slow', function(){$('.intro').fadeIn()});
