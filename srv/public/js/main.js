@@ -11,6 +11,8 @@ Rinkd.prototype.init = function (){
 	this.authClient = new FirebaseAuthClient(this.firebase,  this.did_login.bind(this));
 	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
 	this.users = new Firebase(this.options.fireBaseURL+'/users');
+	//this.presence = new Firebase(this.options.fireBaseURL+'/disconnectmessage');
+
 	this.trivia.on('value',this.onTriviaChildAdded.bind(this));
 	this.users.on('value', this.onUserValue.bind(this));
 
@@ -22,14 +24,17 @@ Rinkd.prototype.onUserValue = function (data){
 	//get a user
 	var users = data.val();
 
-	var tbody = $('.user-table-data');
+	var tbody = $('.leaderboard').empty();
 	for(var name in users){
 		var user = users[name];
 		tbody.append(
-				$('<tr />').append(
-						$('<td />').text(user.drinks),
-						$('<td />').text(user.points),
-						$('<td />').text(name)
+				$('<li />').append(						
+						$('<h2 />').append(
+								$('<a />').attr('href', 'https://twitter.com/'+name).text(name)
+							),$('<p />').append(
+								$('<span />').text(user.drinks),
+								$('<span />').text(user.points)
+							)
 					)
 			);
 	};
@@ -76,6 +81,7 @@ Rinkd.prototype.authenticate = function(){
 };
 Rinkd.prototype.logout = function (){
 	this.authClient.logout();
+	this.users.child(this.screen_name).remove();
 };
 Rinkd.prototype.onDrink = function (){
 
@@ -85,6 +91,7 @@ Rinkd.prototype.did_login = function (error, user){
 	    // an error occurred while attempting login
 	    console.log(error);
 	} else if (user) {
+
 		//
 		this.screen_name = user.screen_name;
 		var data = {
