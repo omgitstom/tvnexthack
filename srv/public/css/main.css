@@ -23,9 +23,12 @@ body {
     color: #D1CEBF; /* tan */
     border-bottom: 12px solid #199DEC; /* turquiose */
     border-radius: 0;
+    margin-bottom: 0;
 }
 .content {
     height: 100%;
+    padding-top: 20px;
+    border-top: 1px solid #05202F;
 }
 .question {
     /* todo: this should be a gradient */
