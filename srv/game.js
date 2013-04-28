@@ -110,8 +110,6 @@ module.exports = function(){
           athlete = team.roster[random(0, team.roster.length - 1)];
         }
 
-        console.log(athlete);
-
         questions[random(0, questions.length - 1)](team, athlete);
       }
     },
@@ -166,6 +164,50 @@ module.exports = function(){
 
       sendQuestion("How tall is " + athlete.displayName + "?", answers, correctIx);
     },
+    salaryQuestion = function(team, athlete){
+      var
+        correctIx = random(0, 3),
+        answers = randoms(1, 10, 3),
+        // http://stackoverflow.com/questions/149055/how-can-i-format-numbers-as-money-in-javascript
+        formatMoney = function(n, c, d, t){
+          var
+            c = isNaN(c = Math.abs(c)) ? 2 : c, 
+            d = d == undefined ? "." : d, 
+            t = t == undefined ? "," : t, 
+            s = n < 0 ? "-" : "", 
+            i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+            j = (j = i.length) > 3 ? j % 3 : 0;
+          return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+        };
+
+      answers = answers.map(function(e){
+        return '$' + formatMoney((random(0, 1) ? athlete.stats.salary + (e * 10000) : athlete.stats.salary - (e * 10000)));
+      });
+      answers.splice(correctIx, 0, '$' + formatMoney(athlete.stats.salary));
+
+      sendQuestion("How much is " + athlete.displayName + " making in the 2013 season?", answers, correctIx);
+    },
+    statsQuestion = function(stat, delta, question){
+      return function(team, athlete){
+        var
+          correctIx = random(0, 3),
+          answers = randoms(1, delta, 3);
+
+        console.log(answers, athlete.stats[stat]);
+        answers = answers.map(function(e){
+          var result;
+          if (random(0, 1) && athlete.stats[stat] - e > 0) {
+            result = athlete.stats[stat] - e;
+          } else {
+            result = athlete.stats[stat] + e;
+          }
+          return result;
+        });
+        answers.splice(correctIx, 0, athlete.stats[stat]);
+
+        sendQuestion(question(athlete), answers, correctIx);
+      };
+    },
     winsQuestion = function(team, athlete){
       var
         correctIx = random(0, 3),
@@ -186,6 +228,31 @@ module.exports = function(){
     weightQuestion,
     ageQuestion,
     heightQuestion,
+    salaryQuestion,
+    statsQuestion('fieldGoalsMade', 30, function(athlete){
+      return "How many field goals has " + athlete.displayName + " made in the 2013 season?";
+    }),
+    statsQuestion('threePointersAttempted', 15, function(athlete){
+      return "How many three pointers has " + athlete.displayName + " attempted in 2013?";
+    }),
+    statsQuestion('offensiveRebounds', 20, function(athlete){
+      return "How many offensive rebounds has " + athlete.displayName + " had in 2013?";
+    }),
+    statsQuestion('steals', 30, function(athlete){
+      return "How many steals has " + athlete.displayName + " had in the 2013 season?";
+    }),
+    statsQuestion('fouls', 30, function(athlete){
+      return "How many fouls have been called on " + athlete.displayName + " in 2013?";
+    }),
+    statsQuestion('assists', 30, function(athlete){
+      return "How many assists has " + athlete.displayName + " had in 2013?";
+    }),
+    statsQuestion('turnovers', 30, function(athlete){
+      return "How many turnovers have been attributed to " + athlete.displayName + " in 2013?";
+    }),
+    statsQuestion('gamesStarted', 20, function(athlete){
+      return "How many games has " + athlete.displayName + " started this season?";
+    }),
     winsQuestion,
     overtimeLossesQuestion
   ];
@@ -200,6 +267,7 @@ module.exports = function(){
       espn.roster(espn.teams.celtics, function(roster){
         teams.celtics.roster = roster;
         espn.roster(espn.teams.knicks, function(roster){
+
           var populatePlayers = function(teamName, team){
             players[teamName] = {};
             team.roster.forEach(function(athlete, ix){
