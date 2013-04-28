@@ -165,18 +165,19 @@ ol {
 	margin-bottom: 4em;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
-.circle-list h2:before{
+.leaderboard.circle-list h2:before{
     content: counter(li);
     counter-increment: li;
     position: absolute;    
-    left: -38px;
-    top: 20px;
+    left: -48px;
+    top: 5px;
     background: #171A1A;
     height: 1.5em;
     width: 1.5em;
     border: .1em solid rgba(25, 157, 236, 1);
     text-align: center;
     font: italic bold 1em/1.5em Georgia, Serif;
+    font-size: 1.5em;
     color: #ccc;
     border-radius: 1.5em;   
 }
