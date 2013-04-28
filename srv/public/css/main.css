@@ -78,6 +78,14 @@ body {
     clear: both;
 }
 
+.intro .play-now {
+    text-align: center;
+    padding-top: 15px;
+}
+.intro p {
+    color: #333;
+}
+
 
 i {
 	width: 32px;
