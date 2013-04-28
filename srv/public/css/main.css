@@ -80,6 +80,9 @@ body {
 .leaderboard li {
     padding-top: 20px;
 }
+.leaderboard li:first-child {
+    padding-top: 0px;
+}
 .leaderboard img {
     display: block;
     float: left;
