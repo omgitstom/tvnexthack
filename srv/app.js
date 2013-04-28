@@ -36,8 +36,7 @@ game();
 
 // POST route for answers
 app.post('/', function(req, res){
-  console.log(req);
-  //pubsub.question.answer()
+  pubsub.question.answer(req.body)
   res.send(201);
 });
 

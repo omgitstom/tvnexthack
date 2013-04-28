@@ -19,8 +19,7 @@ module.exports = {
       trivia.child('current').set(question);
       return newQuestion;
     },
-    answer: function(question, user, answer) {
-      var trivia = mainRef.child(event).child('trivia');
+    answer: function(questionIx, user, answer) {
       if (questionIx != trivia.child('current').child(questionIx).val()) {
         console.log('Not the current question');
         return false;
