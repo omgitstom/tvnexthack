@@ -6,6 +6,12 @@ body {
     font-weight: bold;
     background-color: #D1CEBF; /* tan */
     color: #199DEC; /* turquiose */
+    margin: 0;
+    padding: 0;
+}
+.game, .intro {
+    margin: 0;
+    width: 100%;
 }
 .intro header,
 .game header {
