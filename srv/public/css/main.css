@@ -75,7 +75,12 @@ body {
 }
 .game footer {
     padding-right: 30px;
-    clear: both;
+    border-top: 3px solid #199DEC;
+    background-color: #22282E;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+	height: 35px;
 }
 
 .intro .play-now {
@@ -188,7 +193,7 @@ ol {
 .drink-modal.bounceOut{
 	opacity: 0;
 }
-
-
-
+.answers button {
+	margin:5px;
+}
 
