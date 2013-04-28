@@ -10,11 +10,9 @@ Rinkd.prototype.init = function (){
 	var date = new Date();
 	this.firebase = new Firebase(this.options.fireBaseURL);
 	this.authClient = new FirebaseAuthClient(this.firebase,  this.did_login.bind(this));
-	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia');
-	this.trivia = this.trivia.limit(1);
+	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
 
-	//this.trivia.on('value',this.onValue.bind(this));
-	this.trivia.on('child_added',this.onTriviaChildAdded.bind(this));
+	this.trivia.on('child_changed',this.onTriviaChildAdded.bind(this));
 
 	//wire up interface
 	$('.play-now').click(this.authenticate.bind(this));
@@ -24,19 +22,38 @@ Rinkd.prototype.onValue = function(snapshot){
 
 }
 Rinkd.prototype.onTriviaChildAdded = function(snapshot){
-	console.log(snapshot.val());
+	this.currentQuestion = snapshot.val();
 	var question = snapshot.val().question;
 	var answers = snapshot.val().answers;
 	var length = answers.length;
 	var i = 0;
 	var answerNode = $('.answers').empty();
+	var self=this;
 
 	$('.question').text(question);
 	
 	for(i; i<length; i+=1){
-		answerNode.append($('<button />').addClass('btn').text(answers[i]));
+		answerNode.append($('<button />')
+			.addClass('btn')
+			.text(answers[i])
+			.on('click',{'self':self}, self.answerQuestion)
+			);
 	}
 }
+Rinkd.prototype.answerQuestion = function (evt){
+	var self = evt.data.self;
+	var target = evt.target;
+	var answer = $(target).text();
+	var currentQuestion = self.currentQuestion;
+	var data = {
+		'questionIx': currentQuestion.questionIx,
+		'user':self.screen_name,
+		'answer':answer
+	};
+
+	$.post('/', data);
+
+};
 Rinkd.prototype.authenticate = function(){
 	this.authClient.login('twitter');
 };
@@ -51,8 +68,8 @@ Rinkd.prototype.did_login = function (error, user){
 	    // an error occurred while attempting login
 	    console.log(error);
 	} else if (user) {
-	    // user authenticated with Firebase
-	    console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+		//
+		this.screen_name = user.screen_name;
 	    
 	    //add user name
 	    $('.username').text('@'+user.screen_name);
