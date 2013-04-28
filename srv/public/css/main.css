@@ -25,6 +25,11 @@ body {
     border-radius: 0;
     margin-bottom: 0;
 }
+.twitter-timeline {
+    float: left;
+    margin-right: 20px;
+}
+
 .content {
     height: 100%;
     padding-top: 20px;
