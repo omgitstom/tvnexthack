@@ -60,14 +60,17 @@ body {
 
 .content {
     height: 100%;
-    padding-top: 20px;
+    padding: 20px;
     border-top: 1px solid #05202F;
+    box-sizing: border-box;
 }
-.question {
-    /* todo: this should be a gradient */
-    border-right: 1px solid #A8A79B;
+@media (min-width: 767px) {
+    .content .span6 {
+        /* todo: this should be a gradient */
+        border-right: 1px solid #A8A79B;
+    }
 }
-.question, .leaderboard {
+.content .span6, .content .span5 {
     height: 100%;
 }
 .game footer {
