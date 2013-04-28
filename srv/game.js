@@ -300,7 +300,7 @@ module.exports = function(){
 
             // clear out the mentions every once in awhile
             mentions = [];
-          }, 10000);
+          }, 15000);
         });
       });
     });
