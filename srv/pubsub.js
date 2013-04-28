@@ -23,8 +23,11 @@ module.exports = {
       if (questionIx != trivia.child('current').child(questionIx).val()) {
         console.log('Not the current question');
         return false;
+      } else if (trivia.child('trivia').child(questionIx).child(user.username).val()) {
+        console.log('Already answered.');
+        return false;
       }
-      question.users.child(user.username).set(answer);
+      trivia.child('trivia').child(questionIx).child(user.username).set(answer);
       return true;
     }
   }
