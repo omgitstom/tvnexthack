@@ -224,11 +224,11 @@ module.exports = function(){
           // when a keyword is matched in the captions, a "lightning" round begins
           setInterval(lightningRound, 1000);
 
-          // clear out the mentions every once in awhile
           setInterval(function(){
             // send new trivia questions to all the contestants
             chooseQuestion(teams.celtics, teams.knicks)();
 
+            // clear out the mentions every once in awhile
             mentions = [];
           }, 3000);
         });
