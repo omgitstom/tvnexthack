@@ -68,7 +68,6 @@ var func = {
           usersRef.child(userName).child('points').set(currentPoints);
         });
       });
-      triviaRef.child('current').remove();
     }
   }
 };
