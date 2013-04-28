@@ -209,18 +209,8 @@ ol {
 	width: 2000px;
 	margin-left: -1000px;
 	margin-top: -100px;
-	display: block;
 	border-top: 5px solid #199DEC;
 	border-bottom: 5px solid #199DEC;
-	display: none;
-	opacity: 0;
-}
-.drink-modal.bounceIn{
-	opacity: 1;
-	display: block;
-}
-.drink-modal.bounceOut{
-	opacity: 0;
 }
 .answers button {
 	margin:5px;

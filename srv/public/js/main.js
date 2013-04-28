@@ -88,12 +88,10 @@ Rinkd.prototype.logout = function (){
 	this.users.child(this.screen_name).remove();
 };
 Rinkd.prototype.onDrink = function (){	
-	this.clearCSS();
-	$('.drink-modal').addClass('animated bounceIn');
+	$('.drink-modal').removeClass('animated bounceOut hidden').addClass('animated bounceIn');
 };
 Rinkd.prototype.offDrink = function (){
-	$('.drink-modal').addClass('animated bounceOut');
-	
+	$('.drink-modal').removeClass('animated bounceIn').addClass('animated bounceOut');
 	//set drink to false
 	this.userRef.child('drink').set(false);
 
