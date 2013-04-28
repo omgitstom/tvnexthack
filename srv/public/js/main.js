@@ -87,11 +87,16 @@ Rinkd.prototype.logout = function (){
 	this.authClient.logout();
 	this.users.child(this.screen_name).remove();
 };
+$('.drink-modal').on('webkitAnimationEnd animationend', function(){
+  $(this).filter('.fadeOut').addClass('hidden');
+});
 Rinkd.prototype.onDrink = function (){	
-	$('.drink-modal').removeClass('animated bounceOut hidden').addClass('animated bounceIn');
+  $('.drink-modal')
+    .removeClass('animated fadeOut hidden')
+    .addClass('animated bounceIn');
 };
 Rinkd.prototype.offDrink = function (){
-	$('.drink-modal').removeClass('animated bounceIn').addClass('animated bounceOut');
+	$('.drink-modal').removeClass('animated bounceIn').addClass('animated fadeOut');
 	//set drink to false
 	this.userRef.child('drink').set(false);
 
