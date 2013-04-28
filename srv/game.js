@@ -166,6 +166,18 @@ module.exports = function(){
 
       sendQuestion("How tall is " + athlete.displayName + "?", answers, correctIx);
     },
+    salaryQuestion = function(team, athlete){
+      var
+        correctIx = random(0, 3),
+        answers = randoms(1, 10, 3);
+
+      answers = answers.map(function(e){
+        return '$' + (random(0, 1) ? athlete.stats.salary + (e * 10000) : athlete.stats.salary - (e * 10000));
+      });
+      answers.splice(correctIx, 0, '$' + athlete.stats.salary);
+
+      sendQuestion("How much is " + athlete.displayName + " making in the 2013 season?", answers, correctIx);
+    },
     winsQuestion = function(team, athlete){
       var
         correctIx = random(0, 3),
@@ -186,6 +198,7 @@ module.exports = function(){
     weightQuestion,
     ageQuestion,
     heightQuestion,
+    salaryQuestion,
     winsQuestion,
     overtimeLossesQuestion
   ];
