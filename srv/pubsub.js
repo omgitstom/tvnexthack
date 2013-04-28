@@ -28,9 +28,12 @@ var func = {
   oneDrink: function(user) {
     var userDrinkRef = usersRef.child(user).child('drink');
     userDrinkRef.set(true);
-    setTimeout(function(){
-      userDrinkRef.set(false);
-    }, 3000);
+    usersRef.child(user).child('drinks').once('value', function(snapshot){
+      var currentDrinks = snapshot.val();
+      // If currentPoints is null, set to 1, otherwise increment by 1
+      currentDrinks ? currentDrinks = currentDrinks + 1 : currentDrinks = 1;
+      usersRef.child(user).child('drinks').set(currentDrinks);
+    });
   },
   question: {
     send: function(question, answers, correctIx) {
