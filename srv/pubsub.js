@@ -1,13 +1,31 @@
 var Firebase = require('firebase')
-  , mainRef = new Firebase('https://drivia.firebaseio.com/');
+  , mainRef = new Firebase('https://drivia.firebaseio.com/')
+  , trivia = new Firebase('https://drivia.firebaseio.com/trivia');
+
+var event = "basketball-game";
 
 module.exports = {
   drink: function(event, length) {
-    console.log('Drink!!1!');
     mainRef.child(event).child('drink').set(true);
     setTimeout(function() {
       mainRef.child(event).child('drink').set(false);
     }, length * 1000);
   },
-  sendQuestion: function(question, answers, correctIx){}
+  question: {
+    send: function(question, answers, correctIx) {
+      var newQuestion = trivia.push();
+      var question = {question: question, answers: answers, questionIx: newQuestion.name(), correct: correctIx};
+      newQuestion.set(question);
+      trivia.child('current').set(question);
+      return newQuestion;
+    },
+    answer: function(questionIx, user, answer) {
+      if (questionIx != trivia.child('current').child(questionIx).val()) {
+        console.log('Not the current question');
+        return false;
+      }
+      question.users.child(user.username).set(answer);
+      return true;
+    }
+  }
 };
