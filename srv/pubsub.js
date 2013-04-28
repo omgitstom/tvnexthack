@@ -25,15 +25,11 @@ var func = {
       mainRef.child(event).child('drink').set(false);
     }, length * 1000);
   },
-  oneDrink: function(user) {
+  oneDrink: function(user, currentDrinks) {
     var userDrinkRef = usersRef.child(user).child('drink');
     userDrinkRef.set(true);
-    usersRef.child(user).child('drinks').once('value', function(snapshot){
-      var currentDrinks = snapshot.val();
-      // If currentPoints is null, set to 1, otherwise increment by 1
-      currentDrinks = currentDrinks ? currentDrinks + 1 : 1;
-      usersRef.child(user).child('drinks').set(currentDrinks);
-    });
+    currentDrinks = currentDrinks ? currentDrinks + 1 : 1;
+    usersRef.child(user).child('drinks').set(currentDrinks);
   },
   question: {
     send: function(question, answers, correctIx) {
@@ -73,7 +69,7 @@ var func = {
             // decrement by 1 if currentPoints is greater than 0, otherwise set to 0
             currentPoints = currentPoints > 0 ? currentPoints - 1 : 0;
             //console.log({user: userName, answer: userAnswer, correct: false, score: currentPoints});
-            func.oneDrink(user, userInfo);
+            func.oneDrink(user, userInfo.drinks);
           }
           // Set the value for the child.
           usersRef.child(user).child('points').set(currentPoints);
