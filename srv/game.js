@@ -110,6 +110,8 @@ module.exports = function(){
           athlete = team.roster[random(0, team.roster.length - 1)];
         }
 
+        console.log(athlete);
+
         questions[random(0, questions.length - 1)](team, athlete);
       }
     },
