@@ -60,19 +60,69 @@ body {
 
 .content {
     height: 100%;
-    padding-top: 20px;
+    padding: 20px;
     border-top: 1px solid #05202F;
+    box-sizing: border-box;
 }
-.question {
-    /* todo: this should be a gradient */
-    border-right: 1px solid #A8A79B;
+@media (min-width: 767px) {
+    .content .span6 {
+        /* todo: this should be a gradient */
+        border-right: 1px solid #A8A79B;
+    }
 }
-.question, .leaderboard {
+.content .span6, .content .span5 {
     height: 100%;
+}
+
+.leaderboard {
+    margin: 0;
+}
+.leaderboard li {
+    padding-top: 20px;
+}
+.leaderboard li:first-child {
+    padding-top: 0px;
+}
+.leaderboard img {
+    display: block;
+    float: left;
+    padding: 5px;
+    height: 60px;
+    width: 60px;
+    margin: 0 15px;
+    border-radius: 5px;
+    background-color: #171A1A; /* black */
+}
+.leaderboard .username {
+    display: block;
+}
+.leaderboard .score {
+    float: left;
+}
+.leaderboard h2 {
+    font-size: 20px;
+    text-align: left;
+    line-height: 20px;
+}
+.leaderboard label {
+    display: inline;
 }
 .game footer {
     padding-right: 30px;
-    clear: both;
+    border-top: 3px solid #199DEC;
+    background-color: #22282E;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+	height: 35px;
+}
+
+.intro .play-now {
+    text-align: center;
+    padding-top: 15px;
+}
+.intro p {
+    color: #333;
 }
 
 
@@ -88,11 +138,6 @@ i {
 .logout{
 	display: none;
 }
-.username{
-	padding-top: 10px;
-	color: white;
-	padding-right: 20px;
-}
 .left {
 	float:left;
 }
@@ -103,8 +148,8 @@ i {
 }
 
 .circle-list li{
-    padding: 2.5em;
     border-bottom: 1px dashed #ccc;
+    clear: left;
 }
 
 .circle-list h2{
@@ -123,19 +168,19 @@ ol {
 	margin-bottom: 4em;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
-.circle-list h2:before{
+.leaderboard.circle-list h2:before{
     content: counter(li);
     counter-increment: li;
     position: absolute;    
-    z-index: -1;
-    left: -1.3em;
-    top: -.8em;
+    left: -48px;
+    top: 5px;
     background: #171A1A;
     height: 1.5em;
     width: 1.5em;
     border: .1em solid rgba(25, 157, 236, 1);
     text-align: center;
     font: italic bold 1em/1.5em Georgia, Serif;
+    font-size: 1.5em;
     color: #ccc;
     border-radius: 1.5em;   
 }
@@ -176,9 +221,8 @@ ol {
 }
 .drink-modal.bounceOut{
 	opacity: 0;
-	display: none;
 }
-
-
-
+.answers button {
+	margin:5px;
+}
 

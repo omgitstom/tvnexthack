@@ -11,7 +11,6 @@ Rinkd.prototype.init = function (){
 	this.authClient = new FirebaseAuthClient(this.firebase,  this.did_login.bind(this));
 	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
 	this.users = new Firebase(this.options.fireBaseURL+'/users');
-	//this.presence = new Firebase(this.options.fireBaseURL+'/disconnectmessage');
 	
 	this.trivia.child('question').on('value',this.onQuestionChange.bind(this));
 	this.users.on('value', this.onUserValue.bind(this));
@@ -30,20 +29,19 @@ Rinkd.prototype.onUserValue = function (data){
 
 	var tbody = $('.leaderboard').empty();
 	for(var name in users){
-		var user = users[name];
-		tbody.append(
-				$('<li />').append(						
-						$('<h2 />').append(
-								$('<a />').attr('href', 'https://twitter.com/'+name).text(name)
-							),$('<p />').append(
-								$('<span />').text(user.drinks),
-								$('<span />').text(user.points)
-							)
-					)
-			);
+	  var user = users[name];
+	  tbody.append(
+	    $('<li />').append('<img src="' + users[name].profile_url + '">').append(
+	      $('<h2 />').append(
+                '<a class="username" href="https://twitter.com/' + name + '">' + name + '</a>' +
+                  '<div class="score">' + 
+		  '<label>Drinks: <span>' + user.drinks + '</span></label> ' +
+		  '<label>Points: <span>' + user.points + '</span></label>' +
+                  '</div>'
+	      )
+	    )
+	  );
 	};
-	//Should the user drink?
-
 };	
 Rinkd.prototype.onValue = function(data){
 	var currentQuestion = data.val();
@@ -92,11 +90,13 @@ Rinkd.prototype.logout = function (){
 Rinkd.prototype.onDrink = function (){	
 	this.clearCSS();
 	$('.drink-modal').addClass('animated bounceIn');
-
 };
 Rinkd.prototype.offDrink = function (){
-	this.clearCSS();
-	$('.drink-modal').addClass('animated bounceIn');
+	$('.drink-modal').addClass('animated bounceOut');
+	
+	//set drink to false
+	this.userRef.child('drink').set(false);
+
 }
 Rinkd.prototype.clearCSS = function (){
 	$('.drink-modal').removeClass('animated bounceIn bounceOut');
@@ -119,7 +119,7 @@ Rinkd.prototype.did_login = function (error, user){
 	    this.users.child(data.screen_name).child('points').set(0);
 
 	    this.userRef = this.users.child(data.screen_name);
-	    this.userRef.on('value', this.userValueChanged);
+	    this.userRef.on('value', this.userValueChanged.bind(this));
 	    //add user name
 	    $('.username').text('@'+user.screen_name);
 
@@ -136,7 +136,11 @@ Rinkd.prototype.did_login = function (error, user){
 };
 
 Rinkd.prototype.userValueChanged = function (data){
-	console.log("UserRef:" + data.val());
+	var user = data.val();
+	if(user.drink){
+		this.onDrink();
+		setTimeout(this.offDrink.bind(this), 3000);
+	}
 }
 /**
 To bootstrap the creation of Rinkd
@@ -152,4 +156,6 @@ $(document).ready(function(){
 
 	//Run init
 	drink.init();
+
+	window.drink = drink;
 });
