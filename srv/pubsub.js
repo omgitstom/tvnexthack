@@ -13,19 +13,17 @@ module.exports = {
   },
   question: {
     send: function(question, answers, correctIx) {
-      var newQuestion = trivia.push();
-      var question = {question: question, answers: answers, questionIx: newQuestion.name(), correct: correctIx};
-      newQuestion.set(question);
+      var question = {
+        question: question,
+        answers: answers,
+        correct: correctIx
+      };
       trivia.child('current').set(question);
-      return newQuestion;
     },
-    answer: function(questionIx, user, answer) {
-      if (questionIx != trivia.child('current').child(questionIx).val()) {
-        console.log('Not the current question');
-        return false;
-      }
-      question.users.child(user.username).set(answer);
-      return true;
+    tallyPrevious: function(question, answers) {
+      var usersRef = new Firebase('https://drivia.firebaseio.com/users');
+      var answers = trivia.child('current').child('users').val();
+
     }
   }
 };

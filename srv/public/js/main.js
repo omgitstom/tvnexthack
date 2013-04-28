@@ -43,6 +43,7 @@ Rinkd.prototype.onTriviaChildAdded = function(data){
 		answerNode.append($('<button />')
 			.addClass('btn')
 			.text(answers[i])
+			.attr('answerIx', i)
 			.on('click',{'self':self}, self.answerQuestion)
 			);
 	}
@@ -51,16 +52,10 @@ Rinkd.prototype.onTriviaChildAdded = function(data){
 Rinkd.prototype.answerQuestion = function (evt){
 	var self = evt.data.self;
 	var target = evt.target;
-	var answer = $(target).text();
-	var currentQuestion = self.currentQuestion;
-	var data = {
-		'questionIx': currentQuestion.questionIx,
-		'user':self.screen_name,
-		'answer':answer
-	};
+	var answerIx = $(target).attr('answerIx');
+	var screen_name = self.screen_name;
 
-	$.post('/', data);
-
+	self.trivia.child('users').set({screen_name:answerIx});
 };
 Rinkd.prototype.authenticate = function(){
 	this.authClient.login('twitter');
