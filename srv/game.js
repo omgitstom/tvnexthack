@@ -4,20 +4,45 @@ var
   http = require('http'),
   baseball = require('./baseball'),
   pubsub = require('./pubsub'),
-  espn = require('./espn');
+  espn = require('./espn'),
+  util = require('util');
 
 module.exports = function(){
   var
     reported = 0,
 
-    checkForMatches = function(text){
+    // player lookup
+    players = {},
+
+    teams = {},
+
+    checkForKeywordMatches = function(text){
       text = text.toLowerCase();
+
       Object.keys(baseball).forEach(function(level){
         baseball[level].forEach(function(keyword){
           if (~text.indexOf(keyword)){
-            console.log('matched at level', level, keyword, text);
             pubsub.drink('baseball-game', level);
             return;
+          }
+        });
+      });
+    },
+
+    mentions = [],
+    checkForPlayerMentions = function(text){
+      var lower = text.toLowerCase();
+      util.print(text);
+
+      Object.keys(players).forEach(function(teamName){
+        Object.keys(players[teamName]).forEach(function(playerName){
+          if (~lower.indexOf(playerName)){
+            console.log('detected mention of ', playerName);
+            mentions.push({
+              team: teamName,
+              name: playerName,
+              ix: players[teamName][playerName]
+            });
           }
         });
       });
@@ -44,7 +69,8 @@ module.exports = function(){
               return;
             }
             reported = Math.max(item.Timestamp, reported);
-            checkForMatches(item.Data.Text);
+            // checkForKeywordMatches(item.Data.Text);
+            checkForPlayerMentions(item.Data.Text);
           });
         });
       });
@@ -70,8 +96,19 @@ module.exports = function(){
     chooseQuestion = function(left, right){
       return function(){
         var
-          team = random(0, 1) ? left : right,
+          team,
+          mention,
+          athlete;
+        console.log('choosing', mentions);
+        if (mentions.length) {
+          mention = mentions.pop();
+          team = teams[mention.team];
+          athlete = team.roster[mention.ix];
+          console.log('using ' + athlete.displayName);
+        } else {
+          team = random(0, 1) ? left : right;
           athlete = team.roster[random(0, team.roster.length - 1)];
+        }
 
         questions[random(0, questions.length - 1)](team, athlete);
       }
@@ -140,7 +177,7 @@ module.exports = function(){
       sendQuestion("How many wins do the " + team.name + " have this season?", answers, correctIx);
     },
     overtimeLossesQuestion = function(team, athlete){
-      sendQuestion("How many overtime losses did the " + team.overtimeLosses + " have this season?", ['0', '1', '2', '3'], 0);
+      sendQuestion("How many overtime losses did the " + team.name + " have this season?", ['0', '1', '2', '3'], 0);
     };
 
   questions = [
@@ -151,23 +188,49 @@ module.exports = function(){
     overtimeLossesQuestion
   ];
 
-  // when a keyword is matched in the captions, a "lightning" round begins
-  setInterval(lightningRound, 1000);
-
   // get the team summaries
   espn.team(espn.teams.celtics, function(team){
-    var celtics = team;
+    teams.celtics = team;
     espn.team(espn.teams.knicks, function(team){
-      var knicks = team;
+      teams.knicks = team;
 
       // get the team rosters
       espn.roster(espn.teams.celtics, function(roster){
-        celtics.roster = roster;
+        teams.celtics.roster = roster;
         espn.roster(espn.teams.knicks, function(roster){
-          knicks.roster = roster;
-          
-          // send new trivia questions to all the players
-          setInterval(chooseQuestion(celtics, knicks), 3000);
+          var populatePlayers = function(teamName, team){
+            players[teamName] = {};
+            team.roster.forEach(function(athlete, ix){
+              var
+                first = athlete.firstName.toLowerCase(),
+                last = athlete.lastName.toLowerCase();
+              if (!players[teamName][first]) {
+                players[teamName][first] = [];
+              }
+              players[teamName][first].push(ix);
+
+              if (!players[teamName][last]) {
+                players[teamName][last] = [];
+              }
+              players[teamName][last].push(ix);
+            });
+          };
+
+          teams.knicks.roster = roster;
+
+          populatePlayers('knicks', teams.knicks);
+          populatePlayers('celtics', teams.celtics);
+
+          // when a keyword is matched in the captions, a "lightning" round begins
+          setInterval(lightningRound, 1000);
+
+          // clear out the mentions every once in awhile
+          setInterval(function(){
+            // send new trivia questions to all the contestants
+            chooseQuestion(teams.celtics, teams.knicks)();
+
+            mentions = [];
+          }, 3000);
         });
       });
     });
