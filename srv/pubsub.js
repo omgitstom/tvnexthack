@@ -47,25 +47,27 @@ var func = {
     },
     tallyPrevious: function(answer) {
       // get all the answers for the current question
-      triviaRef.child('current').child('users').once('child_added', function(data){
-        var userName = data.name();
-        var userAnswer = data.val();
-        //console.log({user: userName, answer: answer, userAnswer: userAnswer})
-        usersRef.child(userName).child('points').once('value', function(snapshot){
-          var currentPoints = snapshot.val();
-          console.log({user: userName, userAnswer: userAnswer, actualAnswer: answer});
-          if (userAnswer === answer) {
-            // If currentPoints is null, set to 1, otherwise increment by 1
-            currentPoints ? currentPoints = currentPoints + 1 : currentPoints = 1;
-            //console.log({user: userName, answer: userAnswer, correct: true, score: currentPoints});
-          } else {
-            // decrement by 1 if currentPoints is greater than 0, otherwise set to 0
-            currentPoints > 0 ? currentPoints = currentPoints - 1 : currentPoints = 0;
-            //console.log({user: userName, answer: userAnswer, correct: false, score: currentPoints});
-            func.oneDrink(userName);
-          }
-          // Set the value for the child.
-          usersRef.child(userName).child('points').set(currentPoints);
+      triviaRef.child('current').child('users').once('value', function(data){
+        data.forEach(function(child){
+          var userName = child.name();
+          var userAnswer = child.val();
+          //console.log({user: userName, answer: answer, userAnswer: userAnswer})
+          usersRef.child(userName).child('points').once('value', function(snapshot){
+            var currentPoints = snapshot.val();
+            console.log({user: userName, userAnswer: userAnswer, actualAnswer: answer});
+            if (userAnswer === answer) {
+              // If currentPoints is null, set to 1, otherwise increment by 1
+              currentPoints ? currentPoints = currentPoints + 1 : currentPoints = 1;
+              //console.log({user: userName, answer: userAnswer, correct: true, score: currentPoints});
+            } else {
+              // decrement by 1 if currentPoints is greater than 0, otherwise set to 0
+              currentPoints > 0 ? currentPoints = currentPoints - 1 : currentPoints = 0;
+              //console.log({user: userName, answer: userAnswer, correct: false, score: currentPoints});
+              func.oneDrink(userName);
+            }
+            // Set the value for the child.
+            usersRef.child(userName).child('points').set(currentPoints);
+          });
         });
       });
     }
