@@ -1,12 +1,18 @@
-
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
-.brand {
-	font-family: 'Inder', sans-serif;
-	font-weight: bold;
+body {
+    font-family: 'Inder', sans-serif;
+    font-weight: bold;
+    background-color: #D1CEBF; /* tan */
+    color: #199DEC; /* turquiose */
+}
+.intro header,
+.game header {
+    background-color: #171A1A; /* black */
+    color: #D1CEBF; /* tan */
+    border-bottom: 12px solid #199DEC; /* turquiose */
+    border-radius: 0;
 }
 i {
 	width: 32px;
