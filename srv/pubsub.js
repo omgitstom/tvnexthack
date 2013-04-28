@@ -30,15 +30,14 @@ module.exports = {
     tallyPrevious: function(answer) {
       // get all the answers for the current question
       var previousAnswers = [];
-      triviaRef.child('current').child('users').on('value', function(data){
+      triviaRef.child('current').child('users').once('value', function(data){
         var obj = data.val();
         previousAnswers.push(obj);
       });
       //console.log(previousAnswers);
-      usersRef.once('child_added', function(snapshot) {
-        var userName = snapshot.name();
+      usersRef.once('value', function(snapshot) {
         var userData = snapshot.val();
-        console.log({user: userName, data: userData})
+        console.log(userData);
         console.log(previousAnswers);
         // console.log(previousAnswers);
         // console.log(previousAnswers[snapshot.name()]);
