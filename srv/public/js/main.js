@@ -12,13 +12,17 @@ Rinkd.prototype.init = function (){
 	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
 	this.users = new Firebase(this.options.fireBaseURL+'/users');
 	//this.presence = new Firebase(this.options.fireBaseURL+'/disconnectmessage');
-
-	this.trivia.on('value',this.onTriviaChildAdded.bind(this));
+	
+	this.trivia.child('question').on('value',this.onQuestionChange.bind(this));
 	this.users.on('value', this.onUserValue.bind(this));
 
 	//wire up interface
 	$('.play-now').click(this.authenticate.bind(this));
 	$('.logout').click(this.logout.bind(this));
+};
+Rinkd.prototype.onQuestionChange = function (){
+	console.log('onQuestionChange');
+	this.trivia.once('value', this.onTriviaChildAdded.bind(this));
 };
 Rinkd.prototype.onUserValue = function (data){
 	//get a user

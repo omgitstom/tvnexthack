@@ -22,12 +22,40 @@ body {
     background-color: #171A1A; /* black */
     color: #D1CEBF; /* tan */
     border-bottom: 12px solid #199DEC; /* turquiose */
+
+    /* busted */
+    -webkit-border-image: -webkit-gradient(linear, left top, left bottom, color-stop(9px,rgba(25,157,236,1)), color-stop(12px,rgba(23,26,26,1))) 0 0 12px 0 repeat repeat;
+    -webkit-border-image: -webkit-linear-gradient(top, rgba(25,157,236,1) 9px,rgba(23,26,26,1) 12px) 0 0 12px 0 repeat repeat;
+    border-image: linear-gradient(to bottom, rgba(25,157,236,1) 9px,rgba(23,26,26,1) 12px) 0 0 12px 0 repeat repeat;
+
     border-radius: 0;
     margin-bottom: 0;
+    padding: 30px;
+    overflow: hidden;
+    height: 200px;
+}
+.intro h1,
+.game h1 {
+    font-size: 45px;
+    text-align: center;
+}
+.intro h2,
+.game h2 {
+    text-align: center;
 }
 .twitter-timeline {
     float: left;
     margin-right: 20px;
+}
+.beer-logo {
+    border-radius: 200px;
+    border: 12px solid #199DEC; /* turquiose */
+    background-color: #22282E; /* dark gray */
+    width: 100px;
+    height: 100px;
+    padding: 20px;
+    margin: 30px;
+    float: left;
 }
 
 .content {
@@ -41,6 +69,10 @@ body {
 }
 .question, .leaderboard {
     height: 100%;
+}
+.game footer {
+    padding-right: 30px;
+    clear: both;
 }
 
 
