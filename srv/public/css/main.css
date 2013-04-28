@@ -73,6 +73,37 @@ body {
 .content .span6, .content .span5 {
     height: 100%;
 }
+
+.leaderboard {
+    margin: 0;
+}
+.leaderboard li {
+    padding-top: 20px;
+}
+.leaderboard img {
+    display: block;
+    float: left;
+    padding: 5px;
+    height: 60px;
+    width: 60px;
+    margin: 0 15px;
+    border-radius: 5px;
+    background-color: #171A1A; /* black */
+}
+.leaderboard .username {
+    display: block;
+}
+.leaderboard .score {
+    float: left;
+}
+.leaderboard h2 {
+    font-size: 20px;
+    text-align: left;
+    line-height: 20px;
+}
+.leaderboard label {
+    display: inline;
+}
 .game footer {
     padding-right: 30px;
     border-top: 3px solid #199DEC;
@@ -104,11 +135,6 @@ i {
 .logout{
 	display: none;
 }
-.username{
-	padding-top: 10px;
-	color: white;
-	padding-right: 20px;
-}
 .left {
 	float:left;
 }
@@ -119,8 +145,8 @@ i {
 }
 
 .circle-list li{
-    padding: 2.5em;
     border-bottom: 1px dashed #ccc;
+    clear: left;
 }
 
 .circle-list h2{
@@ -143,9 +169,8 @@ ol {
     content: counter(li);
     counter-increment: li;
     position: absolute;    
-    z-index: -1;
-    left: -1.3em;
-    top: -.8em;
+    left: -38px;
+    top: 20px;
     background: #171A1A;
     height: 1.5em;
     width: 1.5em;
