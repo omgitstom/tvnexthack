@@ -34,42 +34,44 @@ var func = {
   },
   question: {
     send: function(question, answers, correctIx) {
-      var parent = this;
       triviaRef.child('current').child('correct').once('value', function(data) {
-        parent.tallyPrevious(data.val());
-        var newQuestion = {
-          question: question,
-          answers: answers,
-          correct: correctIx
-        };
-        triviaRef.child('current').set(newQuestion);
-      });
-    },
-    tallyPrevious: function(answer) {
-      // get all the answers for the current question
-      triviaRef.child('current').child('users').once('value', function(data){
-        data.forEach(function(child){
-          var userName = child.name();
-          var userAnswer = child.val();
-          //console.log({user: userName, answer: answer, userAnswer: userAnswer})
-          usersRef.child(userName).child('points').once('value', function(snapshot){
-            var currentPoints = snapshot.val();
-            console.log({user: userName, userAnswer: userAnswer, actualAnswer: answer});
-            if (userAnswer === answer) {
-              // If currentPoints is null, set to 1, otherwise increment by 1
-              currentPoints ? currentPoints = currentPoints + 1 : currentPoints = 1;
-              //console.log({user: userName, answer: userAnswer, correct: true, score: currentPoints});
-            } else {
-              // decrement by 1 if currentPoints is greater than 0, otherwise set to 0
-              currentPoints > 0 ? currentPoints = currentPoints - 1 : currentPoints = 0;
-              //console.log({user: userName, answer: userAnswer, correct: false, score: currentPoints});
-              func.oneDrink(userName);
-            }
-            // Set the value for the child.
-            usersRef.child(userName).child('points').set(currentPoints);
-          });
+        console.log({old: data.val()});
+        var oldAnswer = data.val();
+        triviaRef.child('current/users').once('value', function(old){
+          func.question.tallyPrevious(old.val(), oldAnswer);
+          var newQuestion = {
+            question: question,
+            answers: answers,
+            correct: correctIx
+          };
+          triviaRef.child('current').set(newQuestion);
         });
       });
+    },
+    tallyPrevious: function(lastAnswers, answer) {
+      console.log(lastAnswers);
+
+      for(var user in lastAnswers){
+        var lastAnswer = lastAnswers[user];
+        console.log({user: user, answer: lastAnswers[user]});
+        usersRef.child(user).child('points').once('value', function(snapshot){
+          var currentPoints = snapshot.val();
+          if (lastAnswer == answer) {
+            console.log('Correct!');
+            // If currentPoints is null, set to 1, otherwise increment by 1
+            currentPoints ? currentPoints = currentPoints + 1 : currentPoints = 1;
+            //console.log({user: userName, answer: userAnswer, correct: true, score: currentPoints});
+          } else {
+            console.log('Incorrect!');
+            // decrement by 1 if currentPoints is greater than 0, otherwise set to 0
+            currentPoints > 0 ? currentPoints = currentPoints - 1 : currentPoints = 0;
+            //console.log({user: userName, answer: userAnswer, correct: false, score: currentPoints});
+            func.oneDrink(user);
+          }
+          // Set the value for the child.
+          usersRef.child(user).child('points').set(currentPoints);
+        });
+      }
     }
   }
 };
