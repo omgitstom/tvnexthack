@@ -29,17 +29,18 @@ Rinkd.prototype.onUserValue = function (data){
 
 	var tbody = $('.leaderboard').empty();
 	for(var name in users){
-		var user = users[name];
-		tbody.append(
-				$('<li />').append(						
-						$('<h2 />').append(
-								$('<a />').attr('href', 'https://twitter.com/'+name).text(name)
-							),$('<p />').append(
-								$('<span />').text(user.drinks),
-								$('<span />').text(user.points)
-							)
-					)
-			);
+	  var user = users[name];
+	  tbody.append(
+	    $('<li />').append('<img src="' + users[name].profile_url + '">').append(
+	      $('<h2 />').append(
+                '<a class="username" href="https://twitter.com/' + name + '">' + name + '</a>' +
+                  '<div class="score">' + 
+		  '<label>Drinks: <span>' + user.drinks + '</span></label> ' +
+		  '<label>Points: <span>' + user.points + '</span></label>' +
+                  '</div>'
+	      )
+	    )
+	  );
 	};
 };	
 Rinkd.prototype.onValue = function(data){
