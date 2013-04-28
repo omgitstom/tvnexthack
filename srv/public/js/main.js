@@ -11,7 +11,7 @@ Rinkd.prototype.init = function (){
 	this.authClient = new FirebaseAuthClient(this.firebase,  this.did_login.bind(this));
 	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
 	this.users = new Firebase(this.options.fireBaseURL+'/users');
-	
+
 	this.trivia.child('question').on('value',this.onQuestionChange.bind(this));
 	this.users.on('value', this.onUserValue.bind(this));
 
@@ -33,8 +33,8 @@ Rinkd.prototype.onUserValue = function (data){
 	  tbody.append(
 	    $('<li />').append('<img src="' + users[name].profile_url + '">').append(
 	      $('<h2 />').append(
-                '<a class="username" href="https://twitter.com/' + name + '">' + name + '</a>' +
-                  '<div class="score">' + 
+                '<a class="_username" href="https://twitter.com/' + name + '">' + name + '</a>' +
+                  '<div class="score">' +
 		  '<label>Drinks: <span>' + user.drinks + '</span></label> ' +
 		  '<label>Points: <span>' + user.points + '</span></label>' +
                   '</div>'
@@ -42,13 +42,13 @@ Rinkd.prototype.onUserValue = function (data){
 	    )
 	  );
 	};
-};	
+};
 Rinkd.prototype.onValue = function(data){
 	var currentQuestion = data.val();
 	console.log(currentQuestion);
 };
 Rinkd.prototype.onTriviaChildAdded = function(data){
-	
+
 	var currentQuestion = data.val();
 	var question = currentQuestion.question;
 	var answers = currentQuestion.answers;
@@ -60,7 +60,7 @@ Rinkd.prototype.onTriviaChildAdded = function(data){
 	this.currentQuestion = currentQuestion;
 
 	$('.question').text(question);
-	
+
 	for(i; i<length; i+=1){
 		answerNode.append($('<button />')
 			.addClass('btn btn-primary')
@@ -90,7 +90,7 @@ Rinkd.prototype.logout = function (){
 $('.drink-modal').on('webkitAnimationEnd animationend', function(){
   $(this).filter('.fadeOut').addClass('hidden');
 });
-Rinkd.prototype.onDrink = function (){	
+Rinkd.prototype.onDrink = function (){
   $('.drink-modal')
     .removeClass('animated fadeOut hidden')
     .addClass('animated bounceIn');

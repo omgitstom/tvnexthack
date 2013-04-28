@@ -93,7 +93,7 @@ body {
     border-radius: 5px;
     background-color: #171A1A; /* black */
 }
-.leaderboard .username {
+.leaderboard ._username {
     display: block;
 }
 .leaderboard .score {
@@ -171,7 +171,7 @@ ol {
 .leaderboard.circle-list h2:before{
     content: counter(li);
     counter-increment: li;
-    position: absolute;    
+    position: absolute;
     left: -48px;
     top: 5px;
     background: #171A1A;
@@ -182,7 +182,7 @@ ol {
     font: italic bold 1em/1.5em Georgia, Serif;
     font-size: 1.5em;
     color: #ccc;
-    border-radius: 1.5em;   
+    border-radius: 1.5em;
 }
 
 .circle-list li:hover h2:before{
@@ -198,7 +198,7 @@ ol {
 	line-height: 170px;
 	color: #199DEC;
 	text-shadow: 5px 5px 0px #eee, 7px 7px 0px #171A1A;
-	
+
 }
 .drink-modal {
 	background-color: #171A1A;

@@ -43,7 +43,7 @@ var func = {
             answers: answers,
             correct: correctIx
           };
-          triviaRef.child('current').set(newQuestion);
+          //triviaRef.child('current').set(newQuestion);
         });
       });
     },
