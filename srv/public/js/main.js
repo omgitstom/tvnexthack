@@ -7,28 +7,35 @@ function Rinkd(options) {
 }
 
 Rinkd.prototype.init = function (){
-	var date = new Date();
 	this.firebase = new Firebase(this.options.fireBaseURL);
 	this.authClient = new FirebaseAuthClient(this.firebase,  this.did_login.bind(this));
 	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
 
-	this.trivia.on('child_changed',this.onTriviaChildAdded.bind(this));
+	
+	//this.trivia.on('child_changed',this.onTriviaChildAdded.bind(this));
+	
+	this.trivia.on('value',this.onTriviaChildAdded.bind(this));
 
 	//wire up interface
 	$('.play-now').click(this.authenticate.bind(this));
 	$('.logout').click(this.logout.bind(this));
 };
-Rinkd.prototype.onValue = function(snapshot){
-
-}
-Rinkd.prototype.onTriviaChildAdded = function(snapshot){
-	this.currentQuestion = snapshot.val();
-	var question = snapshot.val().question;
-	var answers = snapshot.val().answers;
+Rinkd.prototype.onValue = function(data){
+	console.log(new Error().stack);
+	var currentQuestion = data.val();
+	console.log(currentQuestion);
+};
+Rinkd.prototype.onTriviaChildAdded = function(data){
+	
+	var currentQuestion = data.val();
+	var question = currentQuestion.question;
+	var answers = currentQuestion.answers;
 	var length = answers.length;
 	var i = 0;
 	var answerNode = $('.answers').empty();
-	var self=this;
+	var self = this;
+
+	this.currentQuestion = currentQuestion;
 
 	$('.question').text(question);
 	
@@ -39,7 +46,8 @@ Rinkd.prototype.onTriviaChildAdded = function(snapshot){
 			.on('click',{'self':self}, self.answerQuestion)
 			);
 	}
-}
+
+};
 Rinkd.prototype.answerQuestion = function (evt){
 	var self = evt.data.self;
 	var target = evt.target;
