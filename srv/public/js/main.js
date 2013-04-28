@@ -38,6 +38,8 @@ Rinkd.prototype.onUserValue = function (data){
 					)
 			);
 	};
+	//Should the user drink?
+
 };	
 Rinkd.prototype.onValue = function(data){
 	var currentQuestion = data.val();
@@ -74,7 +76,7 @@ Rinkd.prototype.answerQuestion = function (evt){
 	var answerIx = $(target).attr('answerIx');
 	var screen_name = self.screen_name;
 
-	self.trivia.child('users').child(screen_name).set(answerIx);
+	self.trivia.child('users').child(screen_name).set(parseInt(answerIx));
 };
 Rinkd.prototype.authenticate = function(){
 	this.authClient.login('twitter');
@@ -83,9 +85,18 @@ Rinkd.prototype.logout = function (){
 	this.authClient.logout();
 	this.users.child(this.screen_name).remove();
 };
-Rinkd.prototype.onDrink = function (){
+Rinkd.prototype.onDrink = function (){	
+	this.clearCSS();
+	$('.drink-modal').addClass('animated bounceIn');
 
 };
+Rinkd.prototype.offDrink = function (){
+	this.clearCSS();
+	$('.drink-modal').addClass('animated bounceIn');
+}
+Rinkd.prototype.clearCSS = function (){
+	$('.drink-modal').removeClass('animated bounceIn bounceOut');
+}
 Rinkd.prototype.did_login = function (error, user){
 	if (error) {
 	    // an error occurred while attempting login
@@ -103,6 +114,8 @@ Rinkd.prototype.did_login = function (error, user){
 	    this.users.child(data.screen_name).child('drinks').set(0);
 	    this.users.child(data.screen_name).child('points').set(0);
 
+	    this.userRef = this.users.child(data.screen_name);
+	    this.userRef.on('value', this.userValueChanged);
 	    //add user name
 	    $('.username').text('@'+user.screen_name);
 
@@ -116,6 +129,10 @@ Rinkd.prototype.did_login = function (error, user){
 		$('.game').slideUp('slow', function(){$('.intro').fadeIn()});
 	    $('.logout').hide();
 	}
+};
+
+Rinkd.prototype.userValueChanged = function (data){
+	console.log("UserRef:" + data.val());
 }
 /**
 To bootstrap the creation of Rinkd
