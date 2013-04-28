@@ -50,7 +50,7 @@ module.exports = function(){
 
     sendQuestion = function(question, answers, correctIx){
       console.log(question, answers, correctIx);
-      pubsub.question.send(question, answers, correctIx);
+      //pubsub.question.send(question, answers, correctIx);
     },
 
     lightningRound = function(){
