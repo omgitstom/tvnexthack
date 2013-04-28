@@ -11,7 +11,7 @@ Rinkd.prototype.init = function (){
 	this.authClient = new FirebaseAuthClient(this.firebase,  this.did_login.bind(this));
 	this.trivia = new Firebase(this.options.fireBaseURL+'/trivia/current');
 	this.users = new Firebase(this.options.fireBaseURL+'/users');
-	this.presence = new Firebase(this.options.fireBaseURL+'/disconnectmessage');
+	//this.presence = new Firebase(this.options.fireBaseURL+'/disconnectmessage');
 
 	this.trivia.on('value',this.onTriviaChildAdded.bind(this));
 	this.users.on('value', this.onUserValue.bind(this));
@@ -24,15 +24,16 @@ Rinkd.prototype.onUserValue = function (data){
 	//get a user
 	var users = data.val();
 
-	var tbody = $('.user-table-data').empty();
+	var tbody = $('.leaderboard').empty();
 	for(var name in users){
 		var user = users[name];
 		tbody.append(
-				$('<tr />').append(
-						$('<td />').text(user.drinks),
-						$('<td />').text(user.points),
-						$('<td />').append(
+				$('<li />').append(						
+						$('<h2 />').append(
 								$('<a />').attr('href', 'https://twitter.com/'+name).text(name)
+							),$('<p />').append(
+								$('<span />').text(user.drinks),
+								$('<span />').text(user.points)
 							)
 					)
 			);

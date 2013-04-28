@@ -65,10 +65,49 @@ i {
 	padding-right: 20px;
 }
 
+.circle-list li{
+    padding: 2.5em;
+    border-bottom: 1px dashed #ccc;
+}
 
+.circle-list h2{
+    position: relative;
+    margin: 0;
+}
 
+.circle-list p{
+    margin: 0;
+}
+ol {
+	counter-reset: li;
+	list-style: none;
+	font: 15px 'Inder', 'lucida sans';
+	padding: 0;
+	margin-bottom: 4em;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.circle-list h2:before{
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;    
+    z-index: -1;
+    left: -1.3em;
+    top: -.8em;
+    background: #171A1A;
+    height: 1.5em;
+    width: 1.5em;
+    border: .1em solid rgba(25, 157, 236, 1);
+    text-align: center;
+    font: italic bold 1em/1.5em Georgia, Serif;
+    color: #ccc;
+    border-radius: 1.5em;   
+}
 
-
+.circle-list li:hover h2:before{
+    background-color: #199DEC;
+    border-color: rgba(0,0,0,.08);
+    color: #444;
+}
 
 
 
