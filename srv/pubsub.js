@@ -5,57 +5,72 @@ var Firebase = require('firebase')
 
 var event = "basketball-game";
 
-module.exports = {
-  drink: function(event, length) {
+var func = {
+  allDrink: function(event, length) {
     mainRef.child(event).child('drink').set(true);
+
     // give a drink to all the users
-    usersRef.once('child_added')
+    usersRef.once('child_added', function(data){
+      var userName = data.name();
+      var userData = data.val();
+      usersRef.child(userName).child('drinks').once('value', function(snapshot){
+        var currentDrinks = snapshot.val();
+        // If currentPoints is null, set to 1, otherwise increment by 1
+        currentDrinks ? currentDrinks = currentDrinks + 1 : currentDrinks = 1;
+        usersRef.child(userName).child('drinks').set(currentDrinks);
+      });
+    });
+
     setTimeout(function() {
       mainRef.child(event).child('drink').set(false);
     }, length * 1000);
+  },
+  oneDrink: function(user) {
+    var userDrinkRef = usersRef.child(user).child('drink');
+    userDrinkRef.set(true);
+    setTimeout(function(){
+      userDrinkRef.set(false);
+    }, 3000);
   },
   question: {
     send: function(question, answers, correctIx) {
       var parent = this;
       triviaRef.child('current').child('correct').once('value', function(data) {
         parent.tallyPrevious(data.val());
-      })
-      var question = {
-        question: question,
-        answers: answers,
-        correct: correctIx
-      };
-      //triviaRef.child('current').set(question);
+        var newQuestion = {
+          question: question,
+          answers: answers,
+          correct: correctIx
+        };
+        triviaRef.child('current').set(newQuestion);
+      });
     },
     tallyPrevious: function(answer) {
       // get all the answers for the current question
-      var previousAnswers = [];
-      triviaRef.child('current').child('users').once('value', function(data){
-        var obj = data.val();
-        previousAnswers.push(obj);
-      });
-      //console.log(previousAnswers);
-      usersRef.once('value', function(snapshot) {
-        var userData = snapshot.val();
-        console.log(userData);
-        console.log(previousAnswers);
-        // console.log(previousAnswers);
-        // console.log(previousAnswers[snapshot.name()]);
-        if (previousAnswers[snapshot.name()]) {
-          if (previousAnswers[snapshot.name()] == answer) {
-            // console.log(snapshot.name() + ' answered ' + answer);
-            usersRef.child(snapshot.name()).child('points').set(userData.points + 1);
+      triviaRef.child('current').child('users').once('child_added', function(data){
+        var userName = data.name();
+        var userAnswer = data.val();
+        //console.log({user: userName, answer: answer, userAnswer: userAnswer})
+        usersRef.child(userName).child('points').once('value', function(snapshot){
+          var currentPoints = snapshot.val();
+          console.log({user: userName, userAnswer: userAnswer, actualAnswer: answer});
+          if (userAnswer === answer) {
+            // If currentPoints is null, set to 1, otherwise increment by 1
+            currentPoints ? currentPoints = currentPoints + 1 : currentPoints = 1;
+            //console.log({user: userName, answer: userAnswer, correct: true, score: currentPoints});
           } else {
-            if (userData.points > 0) {
-              usersRef.child(snapshot.name()).child('points').set(userData.points - 1);
-            }
+            // decrement by 1 if currentPoints is greater than 0, otherwise set to 0
+            currentPoints > 0 ? currentPoints = currentPoints - 1 : currentPoints = 0;
+            //console.log({user: userName, answer: userAnswer, correct: false, score: currentPoints});
+            func.oneDrink(userName);
           }
-        }
-        // console.log(snapshot.name());
-        // console.log(previousAnswers);
-        //if (previousAnswers.)
-        // console.log(snapshot.name());
+          // Set the value for the child.
+          usersRef.child(userName).child('points').set(currentPoints);
+        });
       });
+      triviaRef.child('current').remove();
     }
   }
 };
+
+module.exports = func;
