@@ -110,6 +110,8 @@ module.exports = function(){
           athlete = team.roster[random(0, team.roster.length - 1)];
         }
 
+        console.log(athlete);
+
         questions[random(0, questions.length - 1)](team, athlete);
       }
     },
@@ -224,11 +226,11 @@ module.exports = function(){
           // when a keyword is matched in the captions, a "lightning" round begins
           setInterval(lightningRound, 1000);
 
-          // clear out the mentions every once in awhile
           setInterval(function(){
             // send new trivia questions to all the contestants
             chooseQuestion(teams.celtics, teams.knicks)();
 
+            // clear out the mentions every once in awhile
             mentions = [];
           }, 3000);
         });
