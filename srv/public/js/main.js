@@ -24,7 +24,7 @@ Rinkd.prototype.onUserValue = function (data){
 	//get a user
 	var users = data.val();
 
-	var tbody = $('.user-table-data');
+	var tbody = $('.user-table-data').empty();
 	for(var name in users){
 		var user = users[name];
 		tbody.append(
